@@ -9,6 +9,16 @@ jobs:
     name: autobump
     runs-on: ubuntu-18.04
     steps:
+      - name: autobump-check
+      - uses: docker://francescoferraioli/autobump-action-unstable:v1
+          env:
+            GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+            PR_FILTER: "labelled"
+            PR_LABELS: "autobump"
+            MERGE_CONFLICT_ACTION: "ignore"
+            MERGE_MSG: "Automatically bumped"
+
+      - name: checkout-and-commit
       - uses: actions/checkout@v2
       - run: |
               date > generated.txt
