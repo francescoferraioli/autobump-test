@@ -26,3 +26,4 @@ jobs:
         run: .github/run-script.sh
         env:
           FRANKIE_TEST: ${{ steps.autobump-action.outputs.FRANKIE_TEST }}
+          ANOTHER_TEST: ${{ steps.autobump-action.outputs.ANOTHER_TEST }}
