@@ -2,16 +2,17 @@ name: autobump
 on:
   push:
      branches:
-       - main
+       - !main
 jobs:
   autoupdate:
     name: autobump
     runs-on: ubuntu-18.04
     steps:
-      - uses: docker://francescoferraioli/autobump-action-unstable:v1
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          PR_FILTER: "labelled"
-          PR_LABELS: "autobump"
-          MERGE_CONFLICT_ACTION: "ignore"
-          MERGE_MSG: "Automatically bumped"
+      - uses: actions/checkout@v2
+      - run: |
+          date > generated.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
+          git push
