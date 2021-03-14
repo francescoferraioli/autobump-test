@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Auto Bump Action
+        id: autobump-action
         uses: docker://francescoferraioli/autobump-action-unstable:v1
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
@@ -23,3 +24,5 @@ jobs:
 
       - name: Run Script
         run: .github/run-script.sh
+        env:
+          FRANKIE_TEST: ${{ steps.autobump-action.outputs.FRANKIE_TEST }}
