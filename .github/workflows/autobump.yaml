@@ -18,4 +18,4 @@ jobs:
           MERGE_MSG: "Automatically bumped"
 
       - uses: actions/checkout@v2
-      - run: ./run-script-sh
+      - run: .github/run-script.sh
