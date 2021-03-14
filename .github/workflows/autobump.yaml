@@ -5,12 +5,11 @@ on:
        - '*'
        - '!main'
 jobs:
-  autoupdate:
+  autobump:
     name: autobump
     runs-on: ubuntu-18.04
     steps:
-      - name: autobump-check
-        uses: docker://francescoferraioli/autobump-action-unstable:v1
+      - uses: docker://francescoferraioli/autobump-action-unstable:v1
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PR_FILTER: "labelled"
@@ -18,9 +17,8 @@ jobs:
           MERGE_CONFLICT_ACTION: "ignore"
           MERGE_MSG: "Automatically bumped"
 
-      - name: checkout-and-commit
-        uses: actions/checkout@v2
-        run: |
+      - uses: actions/checkout@v2
+      - run: |
               date > generated.txt
               git config user.name github-actions
               git config user.email github-actions@github.com
