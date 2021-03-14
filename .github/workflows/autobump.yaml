@@ -2,7 +2,7 @@ name: autobump
 on:
   push:
      branches:
-       - main
+       - !main
 jobs:
   autoupdate:
     name: autobump
