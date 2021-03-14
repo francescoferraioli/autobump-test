@@ -9,4 +9,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - run: echo "HEY"
+      - run: |
+              date > generated.txt
+              git config user.name github-actions
+              git config user.email github-actions@github.com
+              git log
