@@ -1,4 +1,4 @@
-date > generated.txt
+yarn version --patch
 git config user.name github-actions
 git config user.email github-actions@github.com
 git add .
