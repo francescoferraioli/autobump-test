@@ -2,17 +2,11 @@ name: autobump
 on:
   push:
      branches:
-       - !main
+       - main
 jobs:
   autoupdate:
     name: autobump
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - run: |
-            date > generated.txt
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git add .
-            git commit -m "generated"
-            git push
+      - run: echo "HEY"
