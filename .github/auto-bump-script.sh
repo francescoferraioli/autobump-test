@@ -16,7 +16,9 @@ do
     echo "> [$BUMP]"
     echo "> [$VERSION]"
 
+    git fetch
     git checkout $BRANCH
+    git reset --hard @{u}
     [ ! -z "$DIR" ] && pushd $DIR
     npm version $VERSION
     git add package.json
