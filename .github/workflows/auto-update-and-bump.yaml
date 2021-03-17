@@ -25,7 +25,7 @@ jobs:
         uses: docker://francescoferraioli/autobump-action-unstable:v1
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          PACKAGES_TO_CHECK: "default|.;domain|./packages/domain;contracts|./packages/contracts"
+          PACKAGES_TO_CHECK: "default|;domain|packages/domain;contracts|packages/contracts"
 
       - name: Checkout
         uses: actions/checkout@v2
