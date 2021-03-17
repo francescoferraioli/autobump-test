@@ -39,7 +39,7 @@ jobs:
 
   #     - name: Setup npm
   #       run: |
-  #         npm config set git-tag-version true
+  #         npm config set git-tag-version false
 
   #     - name: Run Auto Bump Script
   #       run: .github/auto-bump-script.sh
