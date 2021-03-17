@@ -24,10 +24,7 @@ jobs:
         uses: docker://francescoferraioli/autobump-action-unstable:v1
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          PR_FILTER: "labelled"
-          PR_LABELS: "autobump"
-          MERGE_CONFLICT_ACTION: "ignore"
-          MERGE_MSG: "Automatically bumped"
+          PACKAGES_TO_CHECK: "default|./"
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,5 +32,4 @@ jobs:
       - name: Run Script
         run: .github/run-script.sh
         env:
-          FRANKIE_TEST: ${{ steps.autobump-action.outputs.FRANKIE_TEST }}
-          ANOTHER_TEST: ${{ steps.autobump-action.outputs.ANOTHER_TEST }}
+          AUTOBUMP_RUN: ${{ steps.autobump-action.outputs.AUTOBUMP_RUN }}
