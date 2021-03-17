@@ -29,8 +29,19 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-      - name: Run Script
-        run: .github/run-script.sh
+      - name: Setup git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: Setup npm
+        run: |
+          npm config set git-tag-version false
+
+      - name: Run Auto Bump Script
+        run: .github/auto-bump-script.sh
         env:
           AUTOBUMP_RUN: ${{ steps.autobump-action.outputs.AUTOBUMP_RUN }}
