@@ -15,33 +15,33 @@ jobs:
           PR_LABELS: "autoupdate"
           MERGE_CONFLICT_ACTION: "ignore"
           MERGE_MSG: "Automatically kept this PR up to date with develop"
-  # autobump:
-  #   needs: autoupdate
-  #   name: autobump
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #     - name: Auto Bump Action
-  #       id: autobump-action
-  #       uses: docker://francescoferraioli/autobump-action-unstable:v1
-  #       env:
-  #         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-  #         PACKAGES_TO_CHECK: "default|;domain|packages/domain;contracts|packages/contracts"
+  autobump:
+    needs: autoupdate
+    name: autobump
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Auto Bump Action
+        id: autobump-action
+        uses: docker://francescoferraioli/autobump-action-unstable:v1
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          PACKAGES_TO_CHECK: "default|;domain|packages/domain;contracts|packages/contracts"
 
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #       with:
-  #         fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-  #     - name: Setup git
-  #       run: |
-  #         git config user.name github-actions
-  #         git config user.email github-actions@github.com
+      - name: Setup git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
 
-  #     - name: Setup npm
-  #       run: |
-  #         npm config set git-tag-version false
+      - name: Setup npm
+        run: |
+          npm config set git-tag-version false
 
-  #     - name: Run Auto Bump Script
-  #       run: .github/auto-bump-script.sh
-  #       env:
-  #         AUTOBUMP_RUN: ${{ steps.autobump-action.outputs.AUTOBUMP_RUN }}
+      - name: Run Auto Bump Script
+        run: .github/auto-bump-script.sh
+        env:
+          AUTOBUMP_RUN: ${{ steps.autobump-action.outputs.AUTOBUMP_RUN }}
