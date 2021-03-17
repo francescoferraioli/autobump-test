@@ -16,6 +16,7 @@ jobs:
           MERGE_CONFLICT_ACTION: "ignore"
           MERGE_MSG: "Automatically kept this PR up to date with develop"
   autobump:
+    needs: autoupdate
     name: autobump
     runs-on: ubuntu-18.04
     steps:
