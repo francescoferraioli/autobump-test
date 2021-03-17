@@ -5,11 +5,11 @@ AUTOBUMPS=$(echo $AUTOBUMP_RUN | tr ";" "\n")
 for AUTOBUMP in $AUTOBUMPS
 do
     echo "> [$AUTOBUMP]"
-    BRANCH=$(   echo "${AUTOBUMP}" | sed 's/\(\[^|\]*)|\[^|\]*|\[^|\]*|\[^|\]*|\[^|\]*/\1/')
-    NAME=$(     echo "${AUTOBUMP}" | sed 's/\[^|\]*|\(\[^|\]*)|\[^|\]*|\[^|\]*|\[^|\]*/\1/')
-    DIR=$(      echo "${AUTOBUMP}" | sed 's/\[^|\]*|\[^|\]*|\(\[^|\]*)|\[^|\]*|\[^|\]*/\1/')
-    BUMP=$(     echo "${AUTOBUMP}" | sed 's/\[^|\]*|\[^|\]*|\[^|\]*|\(\[^|\]*)|\[^|\]*/\1/')
-    VERSION=$(  echo "${AUTOBUMP}" | sed 's/\[^|\]*|\[^|\]*|\[^|\]*|\[^|\]*|\(\[^|\]*)/\1/')
+    BRANCH=$(   echo "${AUTOBUMP}" | sed 's/\(\[^|\]*\)|\[^|\]*|\[^|\]*|\[^|\]*|\[^|\]*/\1/')
+    NAME=$(     echo "${AUTOBUMP}" | sed 's/\[^|\]*|\(\[^|\]*\)|\[^|\]*|\[^|\]*|\[^|\]*/\1/')
+    DIR=$(      echo "${AUTOBUMP}" | sed 's/\[^|\]*|\[^|\]*|\(\[^|\]*\)|\[^|\]*|\[^|\]*/\1/')
+    BUMP=$(     echo "${AUTOBUMP}" | sed 's/\[^|\]*|\[^|\]*|\[^|\]*|\(\[^|\]*\)|\[^|\]*/\1/')
+    VERSION=$(  echo "${AUTOBUMP}" | sed 's/\[^|\]*|\[^|\]*|\[^|\]*|\[^|\]*|\(\[^|\]*\)/\1/')
     echo "> [$BRANCH]"
     echo "> [$NAME]"
     echo "> [$DIR]"
