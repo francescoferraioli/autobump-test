@@ -1,0 +1,1 @@
+echo $AUTOBUMP_RUN
