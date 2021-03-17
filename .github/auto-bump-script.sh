@@ -15,4 +15,12 @@ do
     echo "> [$DIR]"
     echo "> [$BUMP]"
     echo "> [$VERSION]"
+
+    git checkout $BRANCH
+    [ ! -z "$DIR" ] && pushd $DIR
+    npm version $VERSION
+    git add package.json
+    git commit -m "Bump $BUMP on $NAME ($VERSION)"
+    git push
+    [ ! -z "$DIR" ] && popd
 done
