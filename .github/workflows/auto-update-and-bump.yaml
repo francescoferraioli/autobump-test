@@ -37,6 +37,10 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
+      - name: Setup npm
+        run: |
+          npm config set git-tag-version true
+
       - name: Run Auto Bump Script
         run: .github/auto-bump-script.sh
         env:
