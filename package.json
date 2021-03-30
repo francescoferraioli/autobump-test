@@ -1,6 +1,6 @@
 {
   "name": "autobump-test",
-  "version": "3.0.1",
+  "version": "4.0.1",
   "main": "index.js",
   "repository": "git@github.com:francescoferraioli/autobump-test.git",
   "author": "Francesco Ferraioli <francesco.ferraioli@outlook.com>",
