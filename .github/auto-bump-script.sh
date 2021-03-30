@@ -2,7 +2,7 @@
 
 AUTOBUMPS=$(echo $AUTOBUMP_RUN | tr "#" "\n")
 
-for AUTOBUMP in $AUTOBUMPS do
+for AUTOBUMP in $AUTOBUMPS; do
 
     echo "> AUTOBUMP: [$AUTOBUMP]"
 
@@ -13,7 +13,7 @@ for AUTOBUMP in $AUTOBUMPS do
 
     git checkout $BRANCH
 
-    for BRANCH_BUMP in $BRANCH_BUMPS do
+    for BRANCH_BUMP in $BRANCH_BUMPS; do
 
         NAME=$(     echo "${BRANCH_BUMP}" | sed 's/\(.*\)|.*|.*|.*/\1/')
         DIR=$(      echo "${BRANCH_BUMP}" | sed 's/.*|\(.*\)|.*|.*/\1/')
