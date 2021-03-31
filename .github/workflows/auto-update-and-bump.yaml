@@ -24,7 +24,18 @@ jobs:
     name: autobump
     runs-on: ubuntu-18.04
     steps:
-      - uses: francescoferraioli/autobump@v1
-        with:
+      - name: Auto Bump Action
+        id: autobump-action
+        uses: docker://francescoferraioli/autobump-action-unstable:v1
+        env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PACKAGES_IN_REPO: "default|;domain|packages/domain;contracts|packages/contracts"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: francescoferraioli/autobump@v2
+        with:
+          AUTOBUMP_RUN: ${{ steps.autobump-action.outputs.AUTOBUMP_RUN }}
