@@ -24,7 +24,7 @@ jobs:
     name: autobump
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/autobump@v1
+      - uses: francescoferraioli/autobump@v1
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PACKAGES_IN_REPO: "default|;domain|packages/domain;contracts|packages/contracts"
