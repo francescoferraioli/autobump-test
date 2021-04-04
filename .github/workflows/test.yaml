@@ -1,0 +1,13 @@
+name: Test
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-18.04
+    steps:
+      - run: echo "TEST"
