@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: docker://chinthakagodawita/autoupdate-action:v1
         env:
-          GITHUB_TOKEN: "${{ secrets.TEST_GHA_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PR_FILTER: "labelled"
           PR_LABELS: "autoupdate"
           MERGE_CONFLICT_ACTION: "ignore"
@@ -28,18 +28,16 @@ jobs:
         id: autobump-check
         uses: docker://francescoferraioli/autobump-action-unstable:v1
         env:
-          GITHUB_TOKEN: "${{ secrets.TEST_GHA_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PACKAGES_IN_REPO: "default|;domain|packages/domain;contracts|packages/contracts;bus-configuration|packages/bus-configuration"
 
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          token: "${{ secrets.TEST_GHA_TOKEN }}"
+          token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Auto Bump Run
         uses: francescoferraioli/autobump@v4.0.1
         with:
           AUTOBUMP_RUN: ${{ steps.autobump-check.outputs.AUTOBUMP_RUN }}
-          AUTOBUMP_USER_NAME: "francescoferraioli"
-          AUTOBUMP_USER_EMAIL: "francesco.ferraioli@outlook.com"
