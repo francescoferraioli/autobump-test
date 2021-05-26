@@ -27,11 +27,18 @@ jobs:
     needs: getdate
     name: getfilterlabel
     runs-on: ubuntu-20.04
+    outputs:
+      label: ${{ steps.getfilterlabel.outputs.label }}
     steps:
       - name: Get filter label
         id: getfilterlabel
         run: |
-          echo "${{ needs.getdate.outputs.amPm }}"
+          if [ "${{ needs.getdate.outputs.amPm }}" == 'AM' ] && [ [ ${{ needs.getdate.outputs.dayOfWeek }} == 3 ] || [ ${{ needs.getdate.outputs.day }} != 1 ] ]
+          then
+              echo "::set-output name=label::dependencies,"
+          else
+              echo "::set-output name=label::"
+          fi
   autoupdate:
     needs: getfilterlabel
     name: autoupdate
@@ -41,7 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PR_FILTER: "labelled"
-          PR_LABELS: "autoupdate"
+          PR_LABELS: "${{ needs.getfilterlabel.outputs.label }}autoupdate"
           MERGE_CONFLICT_ACTION: "ignore"
           MERGE_MSG: "Automatically kept this PR up to date with develop"
   autobump:
@@ -53,6 +60,7 @@ jobs:
         id: autobump-check
         uses: docker://francescoferraioli/autobump-action-unstable:v1
         env:
+          FILTER_LABELS: "${{ needs.getfilterlabel.outputs.label }}"
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PACKAGES_IN_REPO: "default|;domain|packages/domain;contracts|packages/contracts;bus-configuration|packages/bus-configuration"
 
