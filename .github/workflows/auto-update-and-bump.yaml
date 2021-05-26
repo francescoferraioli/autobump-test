@@ -23,7 +23,17 @@ jobs:
           echo "::set-output name=dayOfWeek::$(date +%u)"
           echo "::set-output name=day::$(date +%d)"
           echo "::set-output name=amPm::$(date +%p)"
+  getfilterlabel:
+    needs: getdate
+    name: getfilterlabel
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Get filter label
+        id: getfilterlabel
+        run: |
+          echo "${{ needs.getdate.outputs.amPm }}"
   autoupdate:
+    needs: getfilterlabel
     name: autoupdate
     runs-on: ubuntu-18.04
     steps:
@@ -35,7 +45,7 @@ jobs:
           MERGE_CONFLICT_ACTION: "ignore"
           MERGE_MSG: "Automatically kept this PR up to date with develop"
   autobump:
-    needs: autoupdate
+    needs: [getfilterlabel, autoupdate]
     name: autobump
     runs-on: ubuntu-18.04
     steps:
