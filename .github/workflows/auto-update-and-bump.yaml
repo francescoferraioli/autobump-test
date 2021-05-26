@@ -29,6 +29,7 @@ jobs:
         uses: docker://francescoferraioli/autobump-action-unstable:v1
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          FILTER_LABELS: "autobump"
           PACKAGES_IN_REPO: "default|;domain|packages/domain;contracts|packages/contracts;bus-configuration|packages/bus-configuration"
 
       - name: Checkout Code
