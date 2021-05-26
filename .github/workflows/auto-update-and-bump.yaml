@@ -33,11 +33,14 @@ jobs:
       - name: Is Dependabot Time
         id: isdependabottime
         run: |
-          if [ "${{ needs.getdate.outputs.amPm }}" == 'AM' ] && [ [ ${{ needs.getdate.outputs.dayOfWeek }} == 3 ] || [ ${{ needs.getdate.outputs.day }} != 1 ] ]
+          if [ "${{ needs.getdate.outputs.amPm }}" == 'PM' ]
           then
-              echo "::set-output name=result::true"
-          else
               echo "::set-output name=result::false"
+          elif [ ${{ needs.getdate.outputs.dayOfWeek }} != 3 ] && [ ${{ needs.getdate.outputs.day }} != 1 ] 
+          then
+              echo "::set-output name=result::false"
+          else
+              echo "::set-output name=result::true"
           fi
   autoupdate:
     needs: isdependabottime
@@ -47,7 +50,7 @@ jobs:
       - name: Get PR Label
         id: getprlabel
         run: |
-          if [ ${{ needs.isdependabottime.outputs.result }} == 'true']
+          if [ "${{ needs.isdependabottime.outputs.result }}" == "true" ]
           then
               echo "::set-output name=result::dependencies"
           else
@@ -68,7 +71,7 @@ jobs:
       - name: Get Filter Label
         id: getfilterlabel
         run: |
-          if [ ${{ needs.isdependabottime.outputs.result }} == 'true']
+          if [ "${{ needs.isdependabottime.outputs.result }}" == "true" ]
           then
               echo "::set-output name=result::dependencies"
           else
