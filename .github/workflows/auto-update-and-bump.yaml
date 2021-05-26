@@ -8,6 +8,21 @@ on:
      branches:
        - main
 jobs:
+  getdate:
+    name: getdate
+    runs-on: ubuntu-20.04
+    outputs:
+      dayOfWeek: ${{ steps.getdate.outputs.dayOfWeek }}
+      day: ${{ steps.getdate.outputs.day }}
+      amPm: ${{ steps.getdate.outputs.amPm }}
+    steps:
+      - name: Get current date
+        id: getdate
+        run: |
+          export TZ=Australia/Brisbane
+          echo "::set-output name=dayOfWeek::$(date +%u)"
+          echo "::set-output name=day::$(date +%d)"
+          echo "::set-output name=amPm::$(date +%p)"
   autoupdate:
     name: autoupdate
     runs-on: ubuntu-18.04
