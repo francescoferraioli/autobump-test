@@ -23,44 +23,62 @@ jobs:
           echo "::set-output name=dayOfWeek::$(date +%u)"
           echo "::set-output name=day::$(date +%d)"
           echo "::set-output name=amPm::$(date +%p)"
-  getfilterlabel:
+  isdependabottime:
     needs: getdate
-    name: getfilterlabel
+    name: isdependabottime
     runs-on: ubuntu-20.04
     outputs:
-      label: ${{ steps.getfilterlabel.outputs.label }}
+      result: ${{ steps.isdependabottime.outputs.result }}
     steps:
-      - name: Get filter label
-        id: getfilterlabel
+      - name: Is Dependabot Time
+        id: isdependabottime
         run: |
           if [ "${{ needs.getdate.outputs.amPm }}" == 'AM' ] && [ [ ${{ needs.getdate.outputs.dayOfWeek }} == 3 ] || [ ${{ needs.getdate.outputs.day }} != 1 ] ]
           then
-              echo "::set-output name=label::dependencies,"
+              echo "::set-output name=result::true"
           else
-              echo "::set-output name=label::"
+              echo "::set-output name=result::false"
           fi
   autoupdate:
-    needs: getfilterlabel
+    needs: isdependabottime
     name: autoupdate
     runs-on: ubuntu-18.04
     steps:
+      - name: Get PR Label
+        id: getprlabel
+        run: |
+          if [ ${{ needs.isdependabottime.outputs.result }} == 'true']
+          then
+              echo "::set-output name=result::dependencies"
+          else
+              echo "::set-output name=result::autoupdate"
+          fi
       - uses: docker://chinthakagodawita/autoupdate-action:v1
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PR_FILTER: "labelled"
-          PR_LABELS: "${{ needs.getfilterlabel.outputs.label }}autoupdate"
+          PR_LABELS: "${{ steps.getprlabel.outputs.result }}"
           MERGE_CONFLICT_ACTION: "ignore"
           MERGE_MSG: "Automatically kept this PR up to date with develop"
   autobump:
-    needs: [getfilterlabel, autoupdate]
+    needs: [isdependabottime, autoupdate]
     name: autobump
     runs-on: ubuntu-18.04
     steps:
+      - name: Get Filter Label
+        id: getfilterlabel
+        run: |
+          if [ ${{ needs.isdependabottime.outputs.result }} == 'true']
+          then
+              echo "::set-output name=result::dependencies"
+          else
+              echo "::set-output name=result::"
+          fi
       - name: Auto Bump Check
         id: autobump-check
         uses: docker://francescoferraioli/autobump-action-unstable:v1
         env:
-          FILTER_LABELS: "${{ needs.getfilterlabel.outputs.label }}"
+          FILTER_LABELS: "${{ steps.getfilterlabel.outputs.result }}"
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PACKAGES_IN_REPO: "default|;domain|packages/domain;contracts|packages/contracts;bus-configuration|packages/bus-configuration"
 
